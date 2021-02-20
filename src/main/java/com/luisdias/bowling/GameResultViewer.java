@@ -12,17 +12,28 @@ public class GameResultViewer implements Callable<Integer> {
     private File file;
 
     private final GameResultFileReader gameResultFileReader;
+    private final PlayerActionParser playerActionParser;
     private final Game game;
 
-    public GameResultViewer(GameResultFileReader gameResultFileReader, Game game) {
+    public GameResultViewer(
+        GameResultFileReader gameResultFileReader,
+        PlayerActionParser playerActionParser,
+        Game game) {
         this.gameResultFileReader = gameResultFileReader;
+        this.playerActionParser = playerActionParser;
         this.game = game;
     }
 
     @Override
     public Integer call() {
-        System.out.println("The file is: " + file.getAbsolutePath());
-        gameResultFileReader.read(file);
+        gameResultFileReader.read(file, this::processLine);
         return 0;
+    }
+
+    private boolean processLine(String line) {
+//        PlayerAction playerAction = playerActionParser.parse(line);
+//        game.doPlayerAction(playerAction);
+//        game.checkStatus();
+        return true;
     }
 }
