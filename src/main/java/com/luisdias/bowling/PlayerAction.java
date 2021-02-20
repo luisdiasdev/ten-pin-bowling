@@ -4,7 +4,5 @@ public interface PlayerAction {
 
     String getPlayerName();
 
-    Integer getAction();
-
-    boolean isValid();
+    ActionValue getValue();
 }

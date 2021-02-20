@@ -1,9 +1,7 @@
 package com.luisdias.bowling.impl;
 
-import com.luisdias.bowling.Game;
-import com.luisdias.bowling.GameResultFileReader;
-import com.luisdias.bowling.GameResultViewer;
-import com.luisdias.bowling.PlayerActionParser;
+import com.luisdias.bowling.*;
+import io.vavr.control.Either;
 import java.io.File;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
@@ -30,13 +28,20 @@ public class BowlingGameResultViewer implements GameResultViewer {
     @Override
     public Integer call() {
         gameResultFileReader.read(file, this::processLine);
+        game.printResult();
         return 0;
     }
 
     private boolean processLine(String line) {
-//        PlayerAction playerAction = playerActionParser.parse(line);
-//        game.doPlayerAction(playerAction);
-//        game.checkStatus();
-        return true;
+        Either<ParsingResultError, PlayerAction> actionParseResult = playerActionParser.parse(line);
+        if (actionParseResult.isLeft()) {
+            System.out.println(actionParseResult.mapLeft(ParsingResultError::getMessage).getLeft());
+            return false;
+        }
+        PlayerAction action = actionParseResult.get();
+        boolean wasActionValid = game.doPlayerAction(action);
+        // if is left, print the error to the console
+        // if is right, doPlayerAction and checkStatus afterwards
+        return wasActionValid;
     }
 }

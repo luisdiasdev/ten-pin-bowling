@@ -1,14 +1,15 @@
 package com.luisdias.bowling.impl;
 
+import com.luisdias.bowling.ActionValue;
 import com.luisdias.bowling.PlayerAction;
 import java.util.Objects;
 
 public class BowlingPlayerAction implements PlayerAction {
 
     private final String playerName;
-    private final Integer action;
+    private final ActionValue action;
 
-    public BowlingPlayerAction(String playerName, Integer action) {
+    public BowlingPlayerAction(String playerName, ActionValue action) {
         this.playerName = playerName;
         this.action = action;
     }
@@ -19,14 +20,8 @@ public class BowlingPlayerAction implements PlayerAction {
     }
 
     @Override
-    public Integer getAction() {
+    public ActionValue getValue() {
         return action;
-    }
-
-    @Override
-    public boolean isValid() {
-        // Check if action is between 0 and 10
-        return false;
     }
 
     @Override

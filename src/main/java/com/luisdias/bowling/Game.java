@@ -6,4 +6,6 @@ public interface Game {
     //  - 12 frames if the last ball was a strike or a spare
 
     boolean doPlayerAction(PlayerAction action);
+
+    void printResult(); // TEMPORARY
 }
