@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public class ActionValue {
 
+    public static ActionValue INVALID = ActionValue.invalidAction();
+
     private final Integer value;
     private final boolean isFoul;
 
@@ -37,7 +39,7 @@ public class ActionValue {
         return Objects.hash(value, isFoul);
     }
 
-    public static ActionValue nullAction() {
+    private static ActionValue invalidAction() {
         return new ActionValue(-1, true);
     }
 }

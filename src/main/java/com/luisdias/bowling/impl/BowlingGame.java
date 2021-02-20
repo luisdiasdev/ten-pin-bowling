@@ -23,9 +23,7 @@ public class BowlingGame implements Game {
             .filter(player -> action.getPlayerName().equals(player.getName()))
             .findFirst()
             .orElseGet(() -> addPlayer(action.getPlayerName()));
-        currentPlayer.doAction(action.getValue());
-
-        return true;
+        return currentPlayer.doAction(action.getValue());
     }
 
     @Override

@@ -4,7 +4,7 @@ public interface Player {
 
     String getName();
 
-    void doAction(ActionValue value);
+    boolean doAction(ActionValue value);
 
     Integer getCurrentScore();
 }

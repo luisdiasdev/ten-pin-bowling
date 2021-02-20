@@ -5,36 +5,76 @@ import com.luisdias.bowling.PlayerActionGroup;
 
 public class BowlingPlayerActionGroup implements PlayerActionGroup {
 
-    private final ActionValue firstAction;
-    private final ActionValue secondAction;
+    private final int ALL_AVAILABLE_PINS = 10;
 
-    public BowlingPlayerActionGroup(ActionValue firstAction, ActionValue secondAction) {
-        this.firstAction = firstAction;
-        this.secondAction = secondAction;
+    private boolean isLastGroup = false;
+    private ActionValue firstAction = ActionValue.INVALID;
+    private ActionValue secondAction = ActionValue.INVALID;
+    private ActionValue lastAction = ActionValue.INVALID;
+
+    @Override
+    public void addAction(ActionValue action) {
+        if (!ActionValue.INVALID.equals(action) && canAddAnotherAction()) {
+            setNextAction(action);
+        }
+    }
+
+    private boolean canAddAnotherAction() {
+        return ActionValue.INVALID.equals(firstAction)
+            || ActionValue.INVALID.equals(secondAction)
+            || canDoLastAction();
+    }
+
+    private boolean canDoLastAction() {
+        return isLastGroup && ActionValue.INVALID.equals(lastAction);
+    }
+
+    private void setNextAction(ActionValue action) {
+        if (ActionValue.INVALID.equals(firstAction)) {
+            firstAction = action;
+        } else if (ActionValue.INVALID.equals(secondAction)) {
+            secondAction = action;
+        } else if (canDoLastAction()) {
+            lastAction = action;
+        }
     }
 
     @Override
-    public void addAction(Integer action) {
-
+    public void setAsLastGroup() {
+        isLastGroup = true;
     }
 
     @Override
     public boolean isSpare() {
-        // return true if the first action is < 10
-        // and the second action + first = 10
-        return false;
+        return !firstAction.isFoul()
+            && firstAction.getValue() < ALL_AVAILABLE_PINS
+            && (firstAction.getValue() + secondAction.getValue()) == ALL_AVAILABLE_PINS;
     }
 
     @Override
     public boolean isStrike() {
-        // return true if the first action is = 10
-        return false;
+        return firstAction.getValue() == ALL_AVAILABLE_PINS;
     }
 
     @Override
     public boolean isComplete() {
-        // return true if is either spare or strike
-        // of if it has two actions but neither spare or strike
+        if (isLastGroup) {
+            return isStrike() && hasTwoMoreValidActions();
+        }
+        return isStrike()
+            || isSpare()
+            || isNormalPoints();
+    }
+
+    private boolean hasTwoMoreValidActions() {
+        return secondAction.getValue() >= 0 && lastAction.getValue() >= 0;
+    }
+
+    private boolean isNormalPoints() {
+        if (firstAction.getValue() >= 0 && secondAction.getValue() >= 0) {
+            int sum = firstAction.getValue() + secondAction.getValue();
+            return sum >= 0 && sum < ALL_AVAILABLE_PINS;
+        }
         return false;
     }
 }

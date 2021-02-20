@@ -1,10 +1,10 @@
 package com.luisdias.bowling;
 
-import java.util.List;
-
 public interface PlayerActionGroup {
 
-    void addAction(Integer action);
+    void setAsLastGroup();
+
+    void addAction(ActionValue action);
 
     boolean isSpare();
 
