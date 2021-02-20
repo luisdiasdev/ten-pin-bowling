@@ -1,15 +1,12 @@
 package com.luisdias.bowling;
 
-import com.luisdias.bowling.impl.BowlingGame;
-import com.luisdias.bowling.impl.BowlingPlayerActionFactory;
-import com.luisdias.bowling.impl.BowlingPlayerActionParser;
-import com.luisdias.bowling.impl.BowlingResultFileReader;
+import com.luisdias.bowling.impl.*;
 import picocli.CommandLine;
 
 public class Application {
 
     public static void main(String[] args) {
-        GameResultViewer gameResultViewer = new GameResultViewer(
+        GameResultViewer gameResultViewer = new BowlingGameResultViewer(
             new BowlingResultFileReader(),
             createPlayerActionParser(),
             new BowlingGame());
