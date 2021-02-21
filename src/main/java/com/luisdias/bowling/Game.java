@@ -1,5 +1,7 @@
 package com.luisdias.bowling;
 
+import java.util.List;
+
 public interface Game {
     // A game consists of multiple players (1 <= n < infinity)
     // A game can have a minimum of 10 and a maximum of 12 frames
@@ -7,5 +9,5 @@ public interface Game {
 
     boolean doPlayerAction(PlayerAction action);
 
-    void printResult(); // TEMPORARY
+    List<String> generateResults();
 }

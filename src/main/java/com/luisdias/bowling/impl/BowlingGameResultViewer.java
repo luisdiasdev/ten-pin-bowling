@@ -13,14 +13,17 @@ public class BowlingGameResultViewer implements GameResultViewer {
     private File file;
 
     private final GameResultFileReader gameResultFileReader;
+    private final ResultOutputWriter resultOutputWriter;
     private final PlayerActionParser playerActionParser;
     private final Game game;
 
     public BowlingGameResultViewer(
         GameResultFileReader gameResultFileReader,
+        ResultOutputWriter resultOutputWriter,
         PlayerActionParser playerActionParser,
         Game game) {
         this.gameResultFileReader = gameResultFileReader;
+        this.resultOutputWriter = resultOutputWriter;
         this.playerActionParser = playerActionParser;
         this.game = game;
     }
@@ -28,8 +31,8 @@ public class BowlingGameResultViewer implements GameResultViewer {
     @Override
     public Integer call() {
         gameResultFileReader.read(file, this::processLine);
-        game.printResult();
-        return 0;
+        boolean wasWriteSuccessful = resultOutputWriter.write(game.generateResults());
+        return wasWriteSuccessful ? 0 : 1;
     }
 
     private boolean processLine(String line) {
@@ -39,9 +42,6 @@ public class BowlingGameResultViewer implements GameResultViewer {
             return false;
         }
         PlayerAction action = actionParseResult.get();
-        boolean wasActionValid = game.doPlayerAction(action);
-        // if is left, print the error to the console
-        // if is right, doPlayerAction and checkStatus afterwards
-        return wasActionValid;
+        return game.doPlayerAction(action);
     }
 }

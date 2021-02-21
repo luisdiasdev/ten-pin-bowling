@@ -1,10 +1,12 @@
 package com.luisdias.bowling;
 
+import java.util.List;
+
 public interface Player {
 
     String getName();
 
     boolean doAction(ActionValue value);
 
-    Integer getCurrentScore();
+    List<PlayerActionGroup> getCompletedActionGroups();
 }

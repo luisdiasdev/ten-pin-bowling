@@ -1,6 +1,7 @@
 package com.luisdias.bowling;
 
 import com.luisdias.bowling.impl.*;
+import java.io.File;
 import picocli.CommandLine;
 
 public class Application {
@@ -8,6 +9,7 @@ public class Application {
     public static void main(String[] args) {
         GameResultViewer gameResultViewer = new BowlingGameResultViewer(
             new BowlingResultFileReader(),
+            new BowlingResultFileOutputWriter(new File("./output.txt")),
             createPlayerActionParser(),
             createGame());
 
@@ -20,7 +22,10 @@ public class Application {
     }
 
     private static Game createGame() {
-        return new BowlingGame(createPlayerFactory());
+        return new BowlingGame(
+            createPlayerFactory(),
+            new BowlingScoreCalculator(),
+            new BowlingScoreConverter());
     }
 
     private static PlayerFactory createPlayerFactory() {

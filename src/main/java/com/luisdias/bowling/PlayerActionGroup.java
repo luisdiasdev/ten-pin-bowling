@@ -11,4 +11,8 @@ public interface PlayerActionGroup {
     boolean isStrike();
 
     boolean isComplete();
+
+    int[] getValues();
+
+    int[] getFoulIndexes();
 }

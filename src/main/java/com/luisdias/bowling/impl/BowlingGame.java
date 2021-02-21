@@ -1,19 +1,25 @@
 package com.luisdias.bowling.impl;
 
-import com.luisdias.bowling.Game;
-import com.luisdias.bowling.Player;
-import com.luisdias.bowling.PlayerAction;
-import com.luisdias.bowling.PlayerFactory;
+import com.luisdias.bowling.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BowlingGame implements Game {
 
     private final PlayerFactory playerFactory;
+    private final ScoreCalculator scoreCalculator;
+    private final ScoreConverter scoreConverter;
     private final List<Player> players;
 
-    public BowlingGame(PlayerFactory playerFactory) {
+    public BowlingGame(
+        PlayerFactory playerFactory,
+        ScoreCalculator scoreCalculator,
+        ScoreConverter scoreConverter) {
         this.playerFactory = playerFactory;
+        this.scoreCalculator = scoreCalculator;
+        this.scoreConverter = scoreConverter;
         this.players = new ArrayList<>();
     }
 
@@ -27,18 +33,21 @@ public class BowlingGame implements Game {
     }
 
     @Override
-    public void printResult() {
-        players
-            .forEach(player -> {
-                System.out.println("Player: " + player.getName());
-                System.out.println("Score: " + player.getCurrentScore());
-                System.out.println();
-            });
+    public List<String> generateResults() {
+        return players.stream()
+            .flatMap(this::generateEachPlayerResult)
+            .collect(Collectors.toList());
     }
 
     private Player addPlayer(String playerName) {
         Player bowlingPlayer = playerFactory.createPlayer(playerName);
         players.add(bowlingPlayer);
         return bowlingPlayer;
+    }
+
+    private Stream<? extends String> generateEachPlayerResult(Player player) {
+        List<PlayerActionGroup> completedActionGroups = player.getCompletedActionGroups();
+        List<Score> scores = scoreCalculator.calculate(completedActionGroups);
+        return scoreConverter.convert(player.getName(), scores).stream();
     }
 }

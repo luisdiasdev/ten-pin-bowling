@@ -17,9 +17,8 @@ public class BowlingPlayer implements Player {
     private final Logger logger = LoggerFactory.getLogger(BowlingPlayer.class);
     private final String name;
     private final PlayerActionGroupFactory playerActionGroupFactory;
-
+    private final List<PlayerActionGroup> completedFrames;
     private int rollCount = 0;
-    private List<PlayerActionGroup> completedFrames;
     private PlayerActionGroup currentActionGroup;
 
     public BowlingPlayer(String name, PlayerActionGroupFactory playerActionGroupFactory) {
@@ -66,7 +65,7 @@ public class BowlingPlayer implements Player {
     }
 
     @Override
-    public Integer getCurrentScore() {
-        return rollCount; // TEMPORARY
+    public List<PlayerActionGroup> getCompletedActionGroups() {
+        return completedFrames;
     }
 }

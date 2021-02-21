@@ -2,6 +2,7 @@ package com.luisdias.bowling.impl;
 
 import com.luisdias.bowling.ActionValue;
 import com.luisdias.bowling.PlayerActionGroup;
+import java.util.stream.Stream;
 
 public class BowlingPlayerActionGroup implements PlayerActionGroup {
 
@@ -26,7 +27,8 @@ public class BowlingPlayerActionGroup implements PlayerActionGroup {
     }
 
     private boolean canDoLastAction() {
-        return isLastGroup && ActionValue.INVALID.equals(lastAction);
+        return isLastGroup && ActionValue.INVALID.equals(lastAction)
+            && isSpare() || isStrike();
     }
 
     private void setNextAction(ActionValue action) {
@@ -64,6 +66,29 @@ public class BowlingPlayerActionGroup implements PlayerActionGroup {
         return isStrike()
             || isSpare()
             || isNormalPoints();
+    }
+
+    @Override
+    public int[] getValues() {
+        return getValuesStream()
+            .mapToInt(ActionValue::getValue)
+            .filter(i -> i >= 0)
+            .toArray();
+    }
+
+    @Override
+    public int[] getFoulIndexes() {
+        return getValuesStream()
+            .map(ActionValue::isFoul)
+            .mapToInt(isFoul -> isFoul ? 1 : 0)
+            .toArray();
+    }
+
+    private Stream<ActionValue> getValuesStream() {
+        if (isLastGroup) {
+            return Stream.of(firstAction, secondAction, lastAction);
+        }
+        return Stream.of(firstAction, secondAction);
     }
 
     private boolean hasTwoMoreValidActions() {

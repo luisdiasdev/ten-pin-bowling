@@ -40,6 +40,6 @@ public class ActionValue {
     }
 
     private static ActionValue invalidAction() {
-        return new ActionValue(-1, true);
+        return new ActionValue(-1, false);
     }
 }
