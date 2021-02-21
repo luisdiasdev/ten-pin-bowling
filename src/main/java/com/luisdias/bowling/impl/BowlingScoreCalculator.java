@@ -35,7 +35,6 @@ public class BowlingScoreCalculator implements ScoreCalculator {
             totalScore += frameScore;
 
             scores.add(new FrameScore(
-                i,
                 totalScore,
                 isLastFrame,
                 actionGroup.isStrike(),

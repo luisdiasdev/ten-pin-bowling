@@ -4,8 +4,6 @@ public interface Score {
 
     int accumulatedScore();
 
-    int index();
-
     boolean isLast();
 
     boolean isStrike();

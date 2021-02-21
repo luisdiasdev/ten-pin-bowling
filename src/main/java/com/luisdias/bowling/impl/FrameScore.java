@@ -5,7 +5,6 @@ import com.luisdias.bowling.Score;
 public class FrameScore implements Score {
 
     private final int accumulatedScore;
-    private final int index;
     private final boolean last;
     private final boolean strike;
     private final boolean spare;
@@ -13,14 +12,12 @@ public class FrameScore implements Score {
     private final int[] values;
 
     public FrameScore(
-        int index,
         int accumulatedScore,
         boolean last,
         boolean strike,
         boolean spare,
         int[] foulIndexes,
         int[] values) {
-        this.index = index;
         this.accumulatedScore = accumulatedScore;
         this.last = last;
         this.strike = strike;
@@ -32,11 +29,6 @@ public class FrameScore implements Score {
     @Override
     public int accumulatedScore() {
         return accumulatedScore;
-    }
-
-    @Override
-    public int index() {
-        return index;
     }
 
     @Override

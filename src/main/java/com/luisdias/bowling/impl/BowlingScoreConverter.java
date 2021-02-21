@@ -2,10 +2,7 @@ package com.luisdias.bowling.impl;
 
 import com.luisdias.bowling.Score;
 import com.luisdias.bowling.ScoreConverter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static com.luisdias.bowling.helper.StringBuilderHelper.appendIfFalse;
 
@@ -56,7 +53,9 @@ public class BowlingScoreConverter implements ScoreConverter {
                 }
                 pinfallsSb.append("\t");
             }
-
+            if (score.isLast()) {
+                pinfallsSb.setLength(pinfallsSb.length() -1);
+            }
         });
         pinfallsSb.append("\n");
         return pinfallsSb.toString();
