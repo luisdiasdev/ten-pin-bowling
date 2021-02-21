@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.IntStream;
+
+import static com.luisdias.bowling.helper.StringBuilderHelper.appendIfFalse;
 
 public class BowlingScoreConverter implements ScoreConverter {
 
@@ -17,7 +18,6 @@ public class BowlingScoreConverter implements ScoreConverter {
         }
 
         List<String> convertedLines = new ArrayList<>();
-        convertedLines.add(generateFrameHeaderString(scores.size()));
         convertedLines.add(generatePlayerNameString(playerName));
         convertedLines.add(generatePinfallsString(scores));
         convertedLines.add(generateScoreString(scores));
@@ -26,17 +26,6 @@ public class BowlingScoreConverter implements ScoreConverter {
 
     private String generatePlayerNameString(String playerName) {
         return playerName + "\n";
-    }
-
-    private String generateFrameHeaderString(int frameCount) {
-        StringBuilder frameSb = new StringBuilder("Frame\t\t");
-        IntStream.range(1, frameCount + 1)
-            .forEachOrdered(i -> {
-                frameSb.append(i);
-                appendIfNotLast(frameSb, "\t\t", i == frameCount);
-            });
-        frameSb.append("\n");
-        return frameSb.toString();
     }
 
     private String generatePinfallsString(List<Score> scores) {
@@ -54,13 +43,7 @@ public class BowlingScoreConverter implements ScoreConverter {
                     .append("\t/\t");
                 return;
             }
-            int[] foulIndexes = score.foulIndexes();
-            int foulIndexesLength = foulIndexes.length;
-            for (int i = 0; i < foulIndexesLength; i++) {
-                if (foulIndexes[i] == 1) {
-                    values[i] = -1;
-                }
-            }
+            prepareFouls(score, values);
             for (int value : values) {
                 if (value == -1) {
                     pinfallsSb.append("F");
@@ -71,7 +54,7 @@ public class BowlingScoreConverter implements ScoreConverter {
                         pinfallsSb.append(value);
                     }
                 }
-                appendIfNotLast(pinfallsSb, "\t", score.isLast());
+                pinfallsSb.append("\t");
             }
 
         });
@@ -79,20 +62,24 @@ public class BowlingScoreConverter implements ScoreConverter {
         return pinfallsSb.toString();
     }
 
+    private void prepareFouls(Score score, int[] values) {
+        int[] foulIndexes = score.foulIndexes();
+        int foulIndexesLength = foulIndexes.length;
+        for (int i = 0; i < foulIndexesLength; i++) {
+            if (foulIndexes[i] == 1) {
+                values[i] = -1;
+            }
+        }
+    }
+
     private String generateScoreString(List<Score> scores) {
         StringBuilder scoreSb = new StringBuilder("Score\t\t");
         scores.forEach(score -> {
 
             scoreSb.append(score.accumulatedScore());
-            appendIfNotLast(scoreSb, "\t\t", score.isLast());
+            appendIfFalse(scoreSb, "\t\t", score.isLast());
         });
         scoreSb.append("\n");
         return scoreSb.toString();
-    }
-
-    private void appendIfNotLast(StringBuilder sb, String value, boolean isLast) {
-        if (!isLast) {
-            sb.append(value);
-        }
     }
 }

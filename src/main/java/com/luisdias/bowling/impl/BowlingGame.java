@@ -9,15 +9,18 @@ import java.util.stream.Stream;
 public class BowlingGame implements Game {
 
     private final PlayerFactory playerFactory;
+    private final ResultHeaderProvider resultHeaderProvider;
     private final ScoreCalculator scoreCalculator;
     private final ScoreConverter scoreConverter;
     private final List<Player> players;
 
     public BowlingGame(
         PlayerFactory playerFactory,
+        ResultHeaderProvider resultHeaderProvider,
         ScoreCalculator scoreCalculator,
         ScoreConverter scoreConverter) {
         this.playerFactory = playerFactory;
+        this.resultHeaderProvider = resultHeaderProvider;
         this.scoreCalculator = scoreCalculator;
         this.scoreConverter = scoreConverter;
         this.players = new ArrayList<>();
@@ -34,8 +37,9 @@ public class BowlingGame implements Game {
 
     @Override
     public List<String> generateResults() {
-        return players.stream()
-            .flatMap(this::generateEachPlayerResult)
+        return Stream.concat(
+            resultHeaderProvider.getHeader().stream(),
+            players.stream().flatMap(this::generateEachPlayerResult))
             .collect(Collectors.toList());
     }
 

@@ -24,6 +24,7 @@ public class Application {
     private static Game createGame() {
         return new BowlingGame(
             createPlayerFactory(),
+            new BowlingHeaderProvider(),
             new BowlingScoreCalculator(),
             new BowlingScoreConverter());
     }
