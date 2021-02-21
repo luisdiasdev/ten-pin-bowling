@@ -21,14 +21,14 @@ public class BowlingPlayerActionGroup implements PlayerActionGroup {
     }
 
     private boolean canAddAnotherAction() {
-        return ActionValue.INVALID.equals(firstAction)
-            || ActionValue.INVALID.equals(secondAction)
+        return ((ActionValue.INVALID.equals(firstAction)
+            || ActionValue.INVALID.equals(secondAction)) && !isStrike())
             || canDoLastAction();
     }
 
     private boolean canDoLastAction() {
         return isLastGroup && ActionValue.INVALID.equals(lastAction)
-            && isSpare() || isStrike();
+            && (isSpare() || isStrike());
     }
 
     private void setNextAction(ActionValue action) {
@@ -61,18 +61,17 @@ public class BowlingPlayerActionGroup implements PlayerActionGroup {
     @Override
     public boolean isComplete() {
         if (isLastGroup) {
-            return isStrike() && hasTwoMoreValidActions();
+            return ((isStrike() || isSpare()) && hasTwoMoreValidActions())
+                || isNormalPoints();
         }
-        return isStrike()
-            || isSpare()
-            || isNormalPoints();
+        return isStrike() || isSpare() || isNormalPoints();
     }
 
     @Override
     public int[] getValues() {
         return getValuesStream()
             .mapToInt(ActionValue::getValue)
-            .filter(i -> i >= 0)
+            .filter(this::greaterOrEqualToZero)
             .toArray();
     }
 
@@ -101,5 +100,9 @@ public class BowlingPlayerActionGroup implements PlayerActionGroup {
             return sum >= 0 && sum < ALL_AVAILABLE_PINS;
         }
         return false;
+    }
+
+    private boolean greaterOrEqualToZero(int i) {
+        return i >= 0;
     }
 }
