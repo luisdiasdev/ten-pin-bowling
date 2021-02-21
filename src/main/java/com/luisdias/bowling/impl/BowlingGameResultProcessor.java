@@ -3,25 +3,22 @@ package com.luisdias.bowling.impl;
 import com.luisdias.bowling.*;
 import io.vavr.control.Either;
 import java.io.File;
-import picocli.CommandLine.Command;
-import picocli.CommandLine.Parameters;
 
-@Command(name = "result-viewer")
-public class BowlingGameResultViewer implements GameResultViewer {
+public class BowlingGameResultProcessor implements GameResultProcessor {
 
-    @Parameters(index = "0", description = "The file containing the results of the bowling game")
-    private File file;
-
+    private final File inputFile;
     private final GameResultFileReader gameResultFileReader;
     private final ResultOutputWriter resultOutputWriter;
     private final PlayerActionParser playerActionParser;
     private final Game game;
 
-    public BowlingGameResultViewer(
+    public BowlingGameResultProcessor(
+        File inputFile,
         GameResultFileReader gameResultFileReader,
         ResultOutputWriter resultOutputWriter,
         PlayerActionParser playerActionParser,
         Game game) {
+        this.inputFile = inputFile;
         this.gameResultFileReader = gameResultFileReader;
         this.resultOutputWriter = resultOutputWriter;
         this.playerActionParser = playerActionParser;
@@ -29,8 +26,8 @@ public class BowlingGameResultViewer implements GameResultViewer {
     }
 
     @Override
-    public Integer call() {
-        gameResultFileReader.read(file, this::processLine);
+    public Integer process() {
+        gameResultFileReader.read(inputFile, this::processLine);
         boolean wasWriteSuccessful = resultOutputWriter.write(game.generateResults());
         return wasWriteSuccessful ? 0 : 1;
     }
