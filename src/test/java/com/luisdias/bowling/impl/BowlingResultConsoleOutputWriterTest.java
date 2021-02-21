@@ -44,13 +44,13 @@ class BowlingResultConsoleOutputWriterTest {
 
     @Test
     void shouldPrintLinesToConsole() {
-        List<String> lines = Stream.of("First line", "Second line", "Third line")
+        List<String> lines = Stream.of("First line\n", "Second line\n", "Third line\n")
             .collect(Collectors.toList());
 
         outputWriter.write(lines);
 
         assertThat(outStream.toString())
-            .isEqualTo(String.join("\n", lines).concat("\n"));
+            .isEqualTo(String.join("", lines));
     }
 
     @Test

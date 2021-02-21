@@ -12,7 +12,7 @@ public class BowlingResultConsoleOutputWriter implements ResultOutputWriter {
             System.out.println("No results to print =(");
             return false;
         }
-        result.forEach(System.out::println);
+        result.forEach(System.out::print);
         return true;
     }
 }
