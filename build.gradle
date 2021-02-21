@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'com.softeq.gradle.itest' version '1.0.4'
 }
 
 group 'com.luisdias'
@@ -27,9 +28,16 @@ dependencies {
     testCompile 'org.mockito:mockito-core:3.7.7'
     testImplementation 'org.assertj:assertj-core:3.19.0'
 
+    itestImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    itestRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    itestImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.0'
 }
 
-test {
+itestSourceSet {
+    name = "it"
+}
+
+tasks.withType(Test) {
     useJUnitPlatform()
 }
 
