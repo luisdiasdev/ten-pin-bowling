@@ -1,4 +1,5 @@
 plugins {
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'java'
     id 'application'
     id 'com.softeq.gradle.itest' version '1.0.4'
@@ -9,9 +10,14 @@ plugins {
 group 'com.luisdias'
 version '1.0.0'
 
+def appMainClassName = 'com.luisdias.bowling.Application' 
+
 application {
-    mainClass.set("com.luisdias.bowling.Application")
+    mainClass.set(appMainClassName)
 }
+
+// ShadowJar doesn't support application.mainClass yet
+mainClassName = appMainClassName
 
 repositories {
     mavenCentral()
