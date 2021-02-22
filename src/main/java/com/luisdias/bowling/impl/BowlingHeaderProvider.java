@@ -9,7 +9,7 @@ import static com.luisdias.bowling.helper.StringBuilderHelper.appendIfFalse;
 
 public class BowlingHeaderProvider implements ResultHeaderProvider {
 
-    private final int MAX_FRAMES = 10;
+    private static final int MAX_FRAMES = 10;
 
     @Override
     public List<String> getHeader() {

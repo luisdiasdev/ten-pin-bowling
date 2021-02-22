@@ -66,7 +66,7 @@ class BowlingGameTest {
 
         boolean result = game.doPlayerAction(new BowlingPlayerAction(playerName, actionValue));
 
-        assertThat(result).isEqualTo(true);
+        assertThat(result).isTrue();
     }
 
     @Test

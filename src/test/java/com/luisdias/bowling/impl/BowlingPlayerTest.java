@@ -121,9 +121,4 @@ class BowlingPlayerTest {
             verify(lastActionGroup, times(1)).setAsLastGroup();
         }
     }
-
-    @Test
-    void shouldReturnListOfCompletedFrames() {
-
-    }
 }

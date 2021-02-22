@@ -51,6 +51,6 @@ class BowlingGameResultProcessorTest {
 
         Integer result = processor.process();
 
-        assertThat(result).isEqualTo(0);
+        assertThat(result).isZero();
     }
 }

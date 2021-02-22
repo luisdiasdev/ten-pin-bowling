@@ -15,8 +15,9 @@ class StringBuilderHelperTest {
 
     @Test
     void shouldThrowNullPointerIfValueIsNull() {
+        StringBuilder sb = new StringBuilder();
         assertThatExceptionOfType(NullPointerException.class)
-            .isThrownBy(() -> StringBuilderHelper.appendIfFalse(new StringBuilder(), null, false));
+            .isThrownBy(() -> StringBuilderHelper.appendIfFalse(sb, null, false));
     }
 
     @Test
@@ -26,8 +27,7 @@ class StringBuilderHelperTest {
 
         StringBuilderHelper.appendIfFalse(input, content, false);
 
-        assertThat(input.toString())
-            .isEqualTo(content);
+        assertThat(input).hasToString(content);
     }
 
     @Test

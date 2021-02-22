@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 public class BowlingPlayerActionGroup implements PlayerActionGroup {
 
-    private final int ALL_AVAILABLE_PINS = 10;
+    private static final int ALL_AVAILABLE_PINS = 10;
 
     private boolean isLastGroup = false;
     private ActionValue firstAction = ActionValue.INVALID;
@@ -79,7 +79,7 @@ public class BowlingPlayerActionGroup implements PlayerActionGroup {
     public int[] getFoulIndexes() {
         return getValuesStream()
             .map(ActionValue::isFoul)
-            .mapToInt(isFoul -> isFoul ? 1 : 0)
+            .mapToInt(isFoul -> Boolean.TRUE.equals(isFoul) ? 1 : 0)
             .toArray();
     }
 

@@ -7,6 +7,8 @@ import com.luisdias.bowling.PlayerActionFactory;
 import io.vavr.control.Either;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -50,27 +52,9 @@ class BowlingPlayerActionParserTest {
             .isEqualTo(ParsingResultError.WRONG_NUMBER_OF_ARGUMENTS);
     }
 
-    @Test
-    void shouldReturnIsNotAValidNumberErrorIfSecondStringIsNotAnInteger() {
-        String input = "Kate John";
-        Either<ParsingResultError, PlayerAction> result = bowlingPlayerActionParser.parse(input);
-
-        assertThat(result.getLeft())
-            .isEqualTo(ParsingResultError.IS_NOT_A_VALID_NUMBER);
-    }
-
-    @Test
-    void shouldReturnIsNotAValidNumberErrorIfSecondStringIsNegative() {
-        String input = "Kate -152";
-        Either<ParsingResultError, PlayerAction> result = bowlingPlayerActionParser.parse(input);
-
-        assertThat(result.getLeft())
-            .isEqualTo(ParsingResultError.IS_NOT_A_VALID_NUMBER);
-    }
-
-    @Test
-    void shouldReturnIsNotAValidNumberErrorIfSecondStringIsGreaterThanTen() {
-        String input = "Kate 152";
+    @ParameterizedTest
+    @ValueSource(strings = {"Kate John", "Kate -152", "Kate 152"})
+    void shouldReturnIsNotAValidNumberError(String input) {
         Either<ParsingResultError, PlayerAction> result = bowlingPlayerActionParser.parse(input);
 
         assertThat(result.getLeft())

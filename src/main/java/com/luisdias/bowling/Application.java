@@ -10,7 +10,7 @@ public class Application {
     private static final String DEFAULT_OUTPUT_FILE = "output.txt";
 
     public static void main(String[] args) {
-        ApplicationCommand applicationCommand = new ApplicationCommand((command) -> {
+        ApplicationCommand applicationCommand = new ApplicationCommand(command -> {
             GameResultProcessor processor = createProcessor(command);
             return processor.process();
         });

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class ActionValue {
 
-    public static ActionValue INVALID = ActionValue.invalidAction();
+    public static final ActionValue INVALID = ActionValue.invalidAction();
 
     private final Integer value;
     private final boolean isFoul;

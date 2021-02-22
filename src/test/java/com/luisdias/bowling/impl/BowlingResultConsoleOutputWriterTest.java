@@ -49,16 +49,14 @@ class BowlingResultConsoleOutputWriterTest {
 
         outputWriter.write(lines);
 
-        assertThat(outStream.toString())
-            .isEqualTo(String.join("", lines));
+        assertThat(outStream).hasToString(String.join("", lines));
     }
 
     @Test
     void shouldPrintNoResultsMessageIfInputIsEmpty() {
         outputWriter.write(Collections.emptyList());
 
-        assertThat(outStream.toString())
-            .isEqualTo(noResultMessage);
+        assertThat(outStream).hasToString(noResultMessage);
     }
 
     @Test
@@ -72,8 +70,7 @@ class BowlingResultConsoleOutputWriterTest {
     void shouldPrintNoResultMessageIfInputIsNull() {
         outputWriter.write(null);
 
-        assertThat(outStream.toString())
-            .isEqualTo(noResultMessage);
+        assertThat(outStream).hasToString(noResultMessage);
     }
 
     @Test
