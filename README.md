@@ -5,7 +5,6 @@
 
 The application goal is to read a text file containing the results of several players bowling 10 frames each, then print a nicely formatted table showing the results of each player.
 
-## Demonstration
 ![](images/ten-pin-bowling.gif)
 
 ## Usage
@@ -76,7 +75,7 @@ To execute only unit tests we can use the following command:
 
 ##### Windows
 ```bat
-.\gradlew test -PdisableIntegrationTests
+.\gradlew.bat test -PdisableIntegrationTests
 ```
 
 #### Integration Tests
@@ -90,7 +89,7 @@ To execute only integration tests we use the following command:
 
 ##### Windows
 ```bat
-.\gradlew integrationTest
+.\gradlew.bat integrationTest
 ```
 
 ## Technologies
