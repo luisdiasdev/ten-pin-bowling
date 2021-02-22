@@ -97,6 +97,7 @@ To execute only integration tests we use the following command:
 The most important technologies used for this application are:
 
 - [Java](https://www.java.com)
+- [Picocli](https://picocli.info)
 - [Gradle](https://gradle.org)
 - [JUnit 5](https://junit.org/junit5)
 - [Mockito](https://site.mockito.org)
