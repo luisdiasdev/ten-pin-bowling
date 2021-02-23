@@ -131,7 +131,7 @@ class BowlingScoreConverterTest {
             List<String> resultStrings = converter.convert(playerName, allFoulsScores);
 
             assertThat(resultStrings.get(1))
-                .isEqualTo("Pinfalls\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\t\n");
+                .isEqualTo("Pinfalls\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\tF\n");
         }
 
         @Test
@@ -139,7 +139,7 @@ class BowlingScoreConverterTest {
             List<String> resultStrings = converter.convert(playerName, allFoulsScores);
 
             assertThat(resultStrings.get(2))
-                .isEqualTo("Score\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\t\t\n");
+                .isEqualTo("Score\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\n");
         }
     }
 

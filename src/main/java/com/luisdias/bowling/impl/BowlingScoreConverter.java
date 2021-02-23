@@ -3,8 +3,7 @@ package com.luisdias.bowling.impl;
 import com.luisdias.bowling.Score;
 import com.luisdias.bowling.ScoreConverter;
 import java.util.*;
-
-import static com.luisdias.bowling.helper.StringBuilderHelper.appendIfFalse;
+import java.util.stream.Collectors;
 
 public class BowlingScoreConverter implements ScoreConverter {
 
@@ -26,39 +25,44 @@ public class BowlingScoreConverter implements ScoreConverter {
     }
 
     private String generatePinfallsString(List<Score> scores) {
-        StringBuilder pinfallsSb = new StringBuilder("Pinfalls\t");
-
-        scores.forEach(score -> {
-            if (score.isStrike() && !score.isLast()) {
-                pinfallsSb.append("\tX\t");
-                return;
-            }
-            int[] values = score.values();
-            if (score.isSpare()) {
-                pinfallsSb
-                    .append(values[0])
-                    .append("\t/\t");
-                return;
-            }
-            prepareFouls(score, values);
-            for (int value : values) {
-                if (value == -1) {
-                    pinfallsSb.append("F");
-                } else {
-                    if (value == 10) {
-                        pinfallsSb.append("X");
-                    } else {
-                        pinfallsSb.append(value);
-                    }
+        String pinfallsString = scores.stream()
+            .map(score -> {
+                if (score.isStrike() && !score.isLast()) {
+                    return "\tX\t";
                 }
-                pinfallsSb.append("\t");
-            }
-            if (score.isLast()) {
-                pinfallsSb.setLength(pinfallsSb.length() -1);
-            }
-        });
+                int[] values = score.values();
+                if (score.isSpare()) {
+                    return String.valueOf(values[0]).concat("\t/\t");
+                }
+                prepareFouls(score, values);
+                return getNormalScoreString(values);
+            })
+            .collect(Collectors.joining());
+
+        StringBuilder pinfallsSb = new StringBuilder("Pinfalls\t");
+        pinfallsSb.append(pinfallsString);
+        pinfallsSb.setLength(pinfallsSb.length() - 1);
         pinfallsSb.append("\n");
         return pinfallsSb.toString();
+    }
+
+    private String getNormalScoreString(int[] values) {
+        return Arrays.stream(values)
+            .mapToObj(this::getSingleValueAsString)
+            .map(s -> s.concat("\t"))
+            .collect(Collectors.joining(""));
+    }
+
+    private String getSingleValueAsString(int value) {
+        if (value == -1) {
+            return "F";
+        } else {
+            if (value == 10) {
+                return "X";
+            } else {
+                return String.valueOf(value);
+            }
+        }
     }
 
     private void prepareFouls(Score score, int[] values) {
@@ -72,13 +76,9 @@ public class BowlingScoreConverter implements ScoreConverter {
     }
 
     private String generateScoreString(List<Score> scores) {
-        StringBuilder scoreSb = new StringBuilder("Score\t\t");
-        scores.forEach(score -> {
-
-            scoreSb.append(score.accumulatedScore());
-            appendIfFalse(scoreSb, "\t\t", score.isLast());
-        });
-        scoreSb.append("\n");
-        return scoreSb.toString();
+        String scoresString = scores.stream()
+            .map(score -> String.valueOf(score.accumulatedScore()))
+            .collect(Collectors.joining("\t\t"));
+        return "Score\t\t" + scoresString + "\n";
     }
 }
