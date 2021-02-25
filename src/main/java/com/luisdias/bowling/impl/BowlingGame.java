@@ -2,6 +2,7 @@ package com.luisdias.bowling.impl;
 
 import com.luisdias.bowling.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,10 +38,17 @@ public class BowlingGame implements Game {
 
     @Override
     public List<String> generateResults() {
+        if (!hasPlayers()) {
+            return Collections.emptyList();
+        }
         return Stream.concat(
             resultHeaderProvider.getHeader().stream(),
             players.stream().flatMap(this::generateEachPlayerResult))
             .collect(Collectors.toList());
+    }
+
+    private boolean hasPlayers() {
+        return !players.isEmpty();
     }
 
     private Player addPlayer(String playerName) {
