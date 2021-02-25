@@ -92,4 +92,19 @@ class BowlingGameTest {
         assertThat(results)
             .containsExactly(header, line);
     }
+
+    @Test
+    void shouldNotGenerateValidResultIfNoPlayers() {
+        String header = "HEADER";
+        when(resultHeaderProvider.getHeader())
+            .thenReturn(Collections.singletonList(header));
+        Player player = createPlayerWithName(playerName);
+        List<PlayerActionGroup> playerActionGroups = Collections.singletonList(mock(PlayerActionGroup.class));
+        when(player.getCompletedActionGroups())
+            .thenReturn(playerActionGroups);
+
+        List<String> results = game.generateResults();
+
+        assertThat(results).isEmpty();
+    }
 }
