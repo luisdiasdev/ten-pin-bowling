@@ -7,12 +7,10 @@ import java.util.Objects;
 public class BowlingResultConsoleOutputWriter implements ResultOutputWriter {
 
     @Override
-    public boolean write(List<String> result) {
+    public void write(List<String> result) {
         if (Objects.isNull(result) || result.isEmpty()) {
-            System.out.println("No results to print =(");
-            return false;
+            return;
         }
         result.forEach(System.out::print);
-        return true;
     }
 }

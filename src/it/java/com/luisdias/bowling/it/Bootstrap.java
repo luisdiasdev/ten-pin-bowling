@@ -14,6 +14,7 @@ public class Bootstrap {
             inputFile,
             new BowlingResultFileReader(),
             new BowlingResultConsoleOutputWriter(),
+            new BowlingResultValidator(),
             createPlayerActionParser(),
             createGame());
     }

@@ -23,6 +23,7 @@ public class Application {
             command.getInputFile(),
             new BowlingResultFileReader(),
             createResultOutputWriter(command.getOutputType()),
+            new BowlingResultValidator(),
             createPlayerActionParser(),
             createGame());
     }

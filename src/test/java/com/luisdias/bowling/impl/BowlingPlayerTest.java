@@ -120,5 +120,21 @@ class BowlingPlayerTest {
 
             verify(lastActionGroup, times(1)).setAsLastGroup();
         }
+
+        @Test
+        void shouldReturnFalseIfAlreadyHasTenCompletedFrames() {
+            int maxFrames = 10;
+            when(playerActionGroupFactory.createPlayerActionGroup())
+                .thenAnswer(invocation -> mockCompleteActionGroup());
+            createPlayer();
+
+            int i = 0;
+            do {
+                player.doAction(strikeAction);
+            } while (i++ < maxFrames-1);
+            boolean result = player.doAction(strikeAction);
+
+            assertThat(result).isFalse();
+        }
     }
 }

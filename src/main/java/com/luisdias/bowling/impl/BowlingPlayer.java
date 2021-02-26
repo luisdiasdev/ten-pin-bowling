@@ -6,15 +6,12 @@ import com.luisdias.bowling.PlayerActionGroup;
 import com.luisdias.bowling.PlayerActionGroupFactory;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class BowlingPlayer implements Player {
 
     private static final int LAST_FRAME = 9;
-    private static final int MAX_ROLLS = 21; // 2 per frame + 1 for the last
+    private static final int MAX_ROLLS = 21;
 
-    private final Logger logger = LoggerFactory.getLogger(BowlingPlayer.class);
     private final String name;
     private final PlayerActionGroupFactory playerActionGroupFactory;
     private final List<PlayerActionGroup> completedFrames;
@@ -35,8 +32,12 @@ public class BowlingPlayer implements Player {
 
     @Override
     public boolean doAction(ActionValue nextAction) {
+        if (completedFrames.size() > LAST_FRAME) {
+            System.out.println("Trying to do more than 10 frames");
+            return false;
+        }
         if (rollCount >= MAX_ROLLS) {
-            logger.warn("Trying to do more actions than the maximum allowed of {}", MAX_ROLLS);
+            System.out.println("Trying to do more actions than the maximum allowed of" + MAX_ROLLS);
             return false;
         }
 
