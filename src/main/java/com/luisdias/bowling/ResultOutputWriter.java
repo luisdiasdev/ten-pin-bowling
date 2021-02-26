@@ -10,5 +10,5 @@ public interface ResultOutputWriter {
      * @param result A list of ordered results
      * @return true if list is not empty and write was successful, false otherwise.
      */
-    boolean write(List<String> result);
+    void write(List<String> result);
 }

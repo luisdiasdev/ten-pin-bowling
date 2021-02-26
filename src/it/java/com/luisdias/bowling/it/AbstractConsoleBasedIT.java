@@ -43,7 +43,22 @@ public class AbstractConsoleBasedIT {
         try {
             assertArrayEquals(outStream.toByteArray(), expectedBytes);
         } catch (Throwable ex) {
-            originalOut.println("Expected output:");
+            originalOut.println("Actual output:");
+            originalOut.println(outStream.toString());
+        }
+    }
+
+    protected void verifyError(String inputFileName, String expectedOutputFileName) throws IOException {
+        File inputFile = new File(getFilePathFromResources(inputFileName));
+        GameResultProcessor processor = bootstrap.createProcessor(inputFile);
+
+        Integer result = processor.process();
+        byte[] expectedBytes = Files.readAllBytes(Paths.get(getFilePathFromResources(expectedOutputFileName)));
+        assertEquals(1, result);
+        try {
+            assertArrayEquals(outStream.toByteArray(), expectedBytes);
+        } catch (Throwable ex) {
+            originalOut.println("Actual output:");
             originalOut.println(outStream.toString());
         }
     }

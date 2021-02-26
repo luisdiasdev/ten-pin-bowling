@@ -15,7 +15,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class BowlingResultConsoleOutputWriterTest {
 
-    String noResultMessage = "No results to print =(\n";
     ByteArrayOutputStream outStream = new ByteArrayOutputStream();
     PrintStream originalOut = System.out;
     BowlingResultConsoleOutputWriter outputWriter;
@@ -33,16 +32,6 @@ class BowlingResultConsoleOutputWriterTest {
     }
 
     @Test
-    void shouldReturnTrueIfOperationWasSuccessful() {
-        List<String> lines = Stream.of("First line", "Second line", "Third line")
-            .collect(Collectors.toList());
-
-        boolean wasWriteSuccessful = outputWriter.write(lines);
-
-        assertThat(wasWriteSuccessful).isTrue();
-    }
-
-    @Test
     void shouldPrintLinesToConsole() {
         List<String> lines = Stream.of("First line\n", "Second line\n", "Third line\n")
             .collect(Collectors.toList());
@@ -53,30 +42,16 @@ class BowlingResultConsoleOutputWriterTest {
     }
 
     @Test
-    void shouldPrintNoResultsMessageIfInputIsEmpty() {
+    void shouldNotPrintIfInputIsEmpty() {
         outputWriter.write(Collections.emptyList());
 
-        assertThat(outStream).hasToString(noResultMessage);
+        assertThat(outStream).hasToString("");
     }
 
     @Test
-    void shouldReturnFalseIfInputCollectionIsEmpty() {
-        boolean wasWriteSuccessful = outputWriter.write(Collections.emptyList());
-
-        assertThat(wasWriteSuccessful).isFalse();
-    }
-
-    @Test
-    void shouldPrintNoResultMessageIfInputIsNull() {
+    void shouldNotPrintIfInputIsNull() {
         outputWriter.write(null);
 
-        assertThat(outStream).hasToString(noResultMessage);
-    }
-
-    @Test
-    void shouldReturnFalseIfInputCollectionIsNull() {
-        boolean wasWriteSuccessful = outputWriter.write(null);
-
-        assertThat(wasWriteSuccessful).isFalse();
+        assertThat(outStream).hasToString("");
     }
 }
