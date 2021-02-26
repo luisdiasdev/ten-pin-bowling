@@ -8,6 +8,6 @@ public class BowlingResultValidator implements ResultValidator {
 
     @Override
     public boolean isValid(List<String> results) {
-        return Objects.nonNull(results) && results.size() > 0;
+        return Objects.nonNull(results) && !results.isEmpty();
     }
 }

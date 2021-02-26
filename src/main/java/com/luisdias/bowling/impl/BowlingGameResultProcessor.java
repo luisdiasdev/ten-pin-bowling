@@ -4,8 +4,6 @@ import com.luisdias.bowling.*;
 import io.vavr.control.Either;
 import java.io.File;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class BowlingGameResultProcessor implements GameResultProcessor {
 
